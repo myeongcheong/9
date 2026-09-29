@@ -1,0 +1,3086 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>[작품 제목을 입력하세요]</title>
+
+<style>
+
+/* =====================================================
+   기본 설정
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+}
+
+body{
+
+    overflow:hidden;
+
+    background:
+    radial-gradient(
+        circle at 50% 45%,
+        #1b2455 0%,
+        #0b1030 42%,
+        #030511 100%
+    );
+
+    color:#eef2ff;
+
+    font-family:
+    "Noto Serif KR",
+    Georgia,
+    serif;
+}
+
+
+/* =====================================================
+   밤하늘
+===================================================== */
+
+#sky{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    z-index:-10;
+
+    background:
+
+    radial-gradient(
+        circle at 15% 25%,
+        rgba(100,125,230,.13),
+        transparent 30%
+    ),
+
+    radial-gradient(
+        circle at 85% 70%,
+        rgba(130,80,220,.12),
+        transparent 32%
+    );
+}
+
+
+/* =====================================================
+   별
+===================================================== */
+
+.star{
+
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+    0 0 7px rgba(190,210,255,.9);
+
+    opacity:.6;
+
+    animation:
+    twinkle var(--duration)
+    ease-in-out infinite;
+}
+
+@keyframes twinkle{
+
+    0%{
+        opacity:.15;
+        transform:scale(.7);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.4);
+    }
+
+    100%{
+        opacity:.15;
+        transform:scale(.7);
+    }
+
+}
+
+
+/* =====================================================
+   장식 별
+===================================================== */
+
+.magic-star{
+
+    position:absolute;
+
+    color:#dce5ff;
+
+    font-size:20px;
+
+    text-shadow:
+    0 0 8px #9eb5ff,
+    0 0 25px #718fff;
+
+    animation:
+    magicTwinkle 3s
+    ease-in-out infinite;
+}
+
+@keyframes magicTwinkle{
+
+    0%,
+    100%{
+        opacity:.25;
+        transform:scale(.8);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.3) rotate(15deg);
+    }
+
+}
+
+
+/* =====================================================
+   유성
+===================================================== */
+
+.shooting-star{
+
+    position:absolute;
+
+    width:180px;
+    height:1px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        #dce7ff,
+        transparent
+    );
+
+    transform:rotate(-35deg);
+
+    opacity:0;
+
+    animation:
+    shooting 8s linear infinite;
+}
+
+@keyframes shooting{
+
+    0%{
+        opacity:0;
+        transform:
+        translate(300px,-300px)
+        rotate(-35deg);
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    25%{
+        opacity:0;
+        transform:
+        translate(-500px,500px)
+        rotate(-35deg);
+    }
+
+    100%{
+        opacity:0;
+    }
+
+}
+
+
+/* =====================================================
+   마법진 장식
+===================================================== */
+
+.magic-circle{
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    border-radius:50%;
+
+    border:
+    1px solid
+    rgba(160,184,255,.13);
+
+    box-shadow:
+    0 0 80px
+    rgba(100,130,255,.06);
+
+    animation:
+    circleRotate 55s linear infinite;
+
+    pointer-events:none;
+}
+
+.magic-circle::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:38px;
+
+    border-radius:50%;
+
+    border:
+    1px dashed
+    rgba(175,195,255,.13);
+}
+
+.magic-circle::after{
+
+    content:"✦";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:
+    translate(-50%,-50%);
+
+    color:#c2d1ff;
+
+    font-size:28px;
+
+    text-shadow:
+    0 0 20px #7897ff;
+}
+
+@keyframes circleRotate{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:90px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 45px;
+
+    z-index:100;
+
+    background:
+    linear-gradient(
+        to bottom,
+        rgba(2,4,17,.95),
+        transparent
+    );
+}
+
+
+/* 로고 */
+
+.logo{
+
+    cursor:pointer;
+
+    user-select:none;
+}
+
+.logo-small{
+
+    display:block;
+
+    font-family:Georgia,serif;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:#7885ad;
+
+    margin-bottom:5px;
+}
+
+.logo-title{
+
+    font-size:17px;
+
+    letter-spacing:4px;
+
+    color:#fff;
+
+    text-shadow:
+    0 0 15px
+    rgba(160,185,255,.5);
+}
+
+
+/* =====================================================
+   NAV
+===================================================== */
+
+nav{
+
+    display:flex;
+
+    gap:28px;
+}
+
+nav button{
+
+    border:0;
+
+    background:none;
+
+    color:#858eae;
+
+    cursor:pointer;
+
+    font-family:Georgia,serif;
+
+    font-size:11px;
+
+    letter-spacing:2px;
+
+    transition:.3s;
+}
+
+nav button:hover{
+
+    color:#fff;
+
+    text-shadow:
+    0 0 12px #91aaff;
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    padding:
+    110px 7vw 50px;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:
+    scale(.97)
+    translateY(15px);
+
+    transition:
+    opacity .45s ease,
+    transform .45s ease,
+    visibility .45s;
+
+    overflow:hidden;
+}
+
+.page.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+    scale(1)
+    translateY(0);
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+#home{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+}
+
+.home-content{
+
+    position:relative;
+
+    z-index:5;
+
+    margin-top:-20px;
+}
+
+.home-small{
+
+    font-family:Georgia,serif;
+
+    font-size:11px;
+
+    letter-spacing:6px;
+
+    color:#8996c2;
+}
+
+.home-title{
+
+    margin-top:25px;
+
+    font-size:
+    clamp(42px,6vw,82px);
+
+    font-weight:300;
+
+    line-height:1.1;
+
+    letter-spacing:-3px;
+
+    text-shadow:
+    0 0 40px
+    rgba(135,165,255,.25);
+}
+
+.home-title span{
+
+    font-family:Georgia,serif;
+
+    color:#cbd7ff;
+
+    text-shadow:
+    0 0 20px
+    rgba(139,170,255,.8);
+}
+
+.home-description{
+
+    margin-top:28px;
+
+    color:#8991ae;
+
+    font-size:13px;
+
+    line-height:2;
+}
+
+
+/* =====================================================
+   시작 버튼
+===================================================== */
+
+.start-button{
+
+    position:relative;
+
+    margin-top:40px;
+
+    padding:15px 34px;
+
+    background:
+    rgba(25,31,76,.35);
+
+    border:
+    1px solid
+    rgba(166,188,255,.4);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    font-family:Georgia,serif;
+
+    letter-spacing:3px;
+
+    transition:.35s;
+
+    overflow:hidden;
+}
+
+.start-button::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.2),
+        transparent
+    );
+
+    transition:.5s;
+}
+
+.start-button:hover::before{
+
+    left:100%;
+}
+
+.start-button:hover{
+
+    border-color:#dbe4ff;
+
+    box-shadow:
+    0 0 30px
+    rgba(116,148,255,.3);
+}
+
+
+/* =====================================================
+   달
+===================================================== */
+
+.moon{
+
+    position:absolute;
+
+    right:10%;
+    top:20%;
+
+    width:150px;
+    height:150px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle at 35% 30%,
+        #fff,
+        #d0dbff 45%,
+        #8997ce
+    );
+
+    box-shadow:
+    0 0 30px
+    rgba(196,211,255,.5),
+
+    0 0 100px
+    rgba(108,139,255,.25);
+
+    opacity:.75;
+}
+
+.home-bottom{
+
+    position:absolute;
+
+    bottom:35px;
+    left:50%;
+
+    transform:
+    translateX(-50%);
+
+    font-family:Georgia,serif;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+
+    color:#59627f;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   섹션 제목
+===================================================== */
+
+.section-title{
+
+    position:relative;
+
+    margin-bottom:40px;
+}
+
+.section-title small{
+
+    font-family:Georgia,serif;
+
+    color:#6e7ba7;
+
+    font-size:10px;
+
+    letter-spacing:4px;
+}
+
+.section-title h2{
+
+    margin-top:8px;
+
+    font-size:32px;
+
+    font-weight:400;
+
+    letter-spacing:-1px;
+}
+
+.section-title::after{
+
+    content:"✦";
+
+    position:absolute;
+
+    left:190px;
+    bottom:4px;
+
+    color:#91aaff;
+
+    text-shadow:
+    0 0 12px #91aaff;
+}
+
+
+/* =====================================================
+   WORLD
+===================================================== */
+
+.world-layout{
+
+    width:90%;
+
+    max-width:1050px;
+
+    height:
+    calc(100% - 100px);
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:90px;
+}
+
+.world-symbol{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:400px;
+
+    position:relative;
+}
+
+.world-star{
+
+    font-size:110px;
+
+    color:#e4eaff;
+
+    text-shadow:
+    0 0 15px #a5bcff,
+    0 0 60px #718fff;
+
+    animation:
+    starFloat 4s ease-in-out infinite;
+}
+
+@keyframes starFloat{
+
+    50%{
+
+        transform:
+        translateY(-12px)
+        rotate(8deg)
+        scale(1.08);
+    }
+
+}
+
+.world-orbit{
+
+    position:absolute;
+
+    width:330px;
+    height:120px;
+
+    border:
+    1px solid
+    rgba(161,185,255,.2);
+
+    border-radius:50%;
+
+    transform:rotate(35deg);
+}
+
+.world-orbit.two{
+
+    transform:rotate(-35deg);
+}
+
+.world-text{
+
+    flex:1;
+
+    color:#aeb5cb;
+
+    line-height:2;
+
+    font-size:13px;
+}
+
+.world-text .quote{
+
+    color:#dbe4ff;
+
+    font-family:Georgia,serif;
+
+    font-size:21px;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+}
+
+.world-text p{
+
+    margin-bottom:18px;
+}
+
+
+/* =====================================================
+   CHARACTERS
+===================================================== */
+
+.character-grid{
+
+    width:100%;
+
+    height:
+    calc(100% - 110px);
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:18px;
+
+    overflow:hidden;
+}
+
+.character-card{
+
+    position:relative;
+
+    height:100%;
+
+    min-height:300px;
+
+    border:
+    1px solid
+    rgba(168,188,255,.17);
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(30,37,83,.7),
+        rgba(6,8,25,.85)
+    );
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:.4s;
+}
+
+.character-card:hover{
+
+    transform:
+    translateY(-8px);
+
+    border-color:
+    rgba(190,210,255,.6);
+
+    box-shadow:
+    0 15px 45px
+    rgba(77,103,190,.25);
+}
+
+.character-card::before{
+
+    content:"✦";
+
+    position:absolute;
+
+    top:25px;
+    right:25px;
+
+    color:#b9caff;
+
+    font-size:15px;
+
+    text-shadow:
+    0 0 10px #7896ff;
+
+    z-index:3;
+}
+
+.character-image{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:70px;
+
+    color:#b9caff;
+
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(90,116,220,.3),
+        transparent 60%
+    );
+}
+
+.character-image img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.character-info{
+
+    position:absolute;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+
+    padding:
+    30px 22px 22px;
+
+    background:
+    linear-gradient(
+        transparent,
+        rgba(3,5,19,.98)
+    );
+
+    z-index:5;
+}
+
+.character-number{
+
+    font-family:Georgia,serif;
+
+    color:#68749f;
+
+    font-size:10px;
+
+    letter-spacing:3px;
+}
+
+.character-name{
+
+    margin-top:5px;
+
+    font-size:22px;
+
+    font-weight:400;
+}
+
+.character-title{
+
+    margin-top:4px;
+
+    color:#8b95b6;
+
+    font-family:Georgia,serif;
+
+    font-size:12px;
+}
+
+
+/* =====================================================
+   CHARACTER DETAIL
+===================================================== */
+
+.back{
+
+    position:absolute;
+
+    top:115px;
+    left:7vw;
+
+    background:none;
+
+    border:0;
+
+    color:#7f8aaf;
+
+    cursor:pointer;
+
+    font-family:Georgia,serif;
+
+    letter-spacing:2px;
+
+    transition:.3s;
+}
+
+.back:hover{
+
+    color:#fff;
+}
+
+.detail{
+
+    width:90%;
+
+    max-width:1100px;
+
+    height:100%;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+}
+
+.detail-image{
+
+    width:45%;
+
+    height:75%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    position:relative;
+}
+
+.detail-image::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:330px;
+    height:330px;
+
+    border-radius:50%;
+
+    background:
+    rgba(98,126,255,.15);
+
+    filter:blur(40px);
+}
+
+.detail-image img{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:100%;
+    max-height:100%;
+
+    object-fit:contain;
+}
+
+.detail-placeholder{
+
+    position:relative;
+
+    z-index:2;
+
+    width:260px;
+    height:390px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border:
+    1px solid
+    rgba(170,191,255,.2);
+
+    color:#c8d5ff;
+
+    font-size:90px;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(110,137,255,.2),
+        transparent 65%
+    );
+}
+
+.detail-info{
+
+    width:55%;
+
+    padding-left:60px;
+}
+
+.detail-name{
+
+    margin-top:8px;
+
+    font-size:60px;
+
+    font-weight:300;
+
+    letter-spacing:-3px;
+}
+
+.detail-title{
+
+    margin-top:8px;
+
+    color:#9aa4c2;
+
+    font-family:Georgia,serif;
+
+    font-size:16px;
+}
+
+.detail-line{
+
+    width:100%;
+
+    height:1px;
+
+    margin:28px 0;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(180,200,255,.5),
+        transparent
+    );
+}
+
+
+/* =====================================================
+   캐릭터 기본 정보
+===================================================== */
+
+.profile{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:22px;
+
+    margin-bottom:30px;
+}
+
+.profile div span{
+
+    display:block;
+
+    color:#67739d;
+
+    font-family:Georgia,serif;
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    margin-bottom:6px;
+}
+
+.profile div strong{
+
+    font-size:13px;
+
+    font-weight:400;
+}
+
+
+/* =====================================================
+   관계
+===================================================== */
+
+.relation-area{
+
+    width:900px;
+
+    max-width:100%;
+
+    height:
+    calc(100% - 100px);
+
+    margin:auto;
+
+    position:relative;
+}
+
+.you{
+
+    position:absolute;
+
+    top:45%;
+    left:50%;
+
+    transform:
+    translate(-50%,-50%);
+
+    width:110px;
+    height:110px;
+
+    border-radius:50%;
+
+    border:
+    1px solid
+    rgba(191,207,255,.65);
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    flex-direction:column;
+
+    background:
+    rgba(10,14,43,.9);
+
+    box-shadow:
+    0 0 50px
+    rgba(107,139,255,.3);
+
+    z-index:5;
+}
+
+.you span{
+
+    font-family:Georgia,serif;
+
+    color:#8795bf;
+
+    font-size:9px;
+
+    letter-spacing:3px;
+}
+
+.you b{
+
+    color:#fff;
+
+    font-size:25px;
+
+    margin-top:4px;
+}
+
+.relation-line{
+
+    position:absolute;
+
+    height:1px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(166,190,255,.4),
+        transparent
+    );
+}
+
+.line-left{
+
+    width:30%;
+
+    top:45%;
+    left:7%;
+}
+
+.line-right{
+
+    width:30%;
+
+    top:45%;
+    right:7%;
+}
+
+.relation-box{
+
+    position:absolute;
+
+    width:230px;
+
+    padding:25px;
+
+    border:
+    1px solid
+    rgba(164,187,255,.17);
+
+    background:
+    rgba(8,11,34,.8);
+
+    transition:.35s;
+}
+
+.relation-box:hover{
+
+    border-color:
+    rgba(190,210,255,.55);
+
+    transform:
+    translateY(-6px);
+}
+
+.relation-box.one{
+
+    top:28%;
+    left:0;
+}
+
+.relation-box.two{
+
+    top:28%;
+    right:0;
+}
+
+.relation-box.three{
+
+    bottom:3%;
+    left:50%;
+
+    transform:
+    translateX(-50%);
+}
+
+.relation-box.three:hover{
+
+    transform:
+    translateX(-50%)
+    translateY(-6px);
+}
+
+.relation-box small{
+
+    color:#66749f;
+
+    font-family:Georgia,serif;
+
+    letter-spacing:2px;
+}
+
+.relation-box h3{
+
+    margin-top:8px;
+
+    font-size:16px;
+
+    font-weight:400;
+}
+
+.relation-box p{
+
+    margin-top:10px;
+
+    color:#838da9;
+
+    font-size:11px;
+
+    line-height:1.8;
+}
+
+
+/* =====================================================
+   STORY
+===================================================== */
+
+.story{
+
+    width:800px;
+
+    max-width:100%;
+
+    height:
+    calc(100% - 100px);
+
+    margin:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+}
+
+.story-date{
+
+    color:#66739d;
+
+    font-family:Georgia,serif;
+
+    letter-spacing:3px;
+
+    font-size:10px;
+
+    margin-bottom:30px;
+}
+
+.story-text{
+
+    border-left:
+    1px solid
+    rgba(177,197,255,.25);
+
+    padding-left:40px;
+
+    color:#aeb5c9;
+
+    font-size:14px;
+
+    line-height:2.2;
+}
+
+.story-text p{
+
+    margin-bottom:18px;
+}
+
+.story-text .big{
+
+    font-family:Georgia,serif;
+
+    font-size:28px;
+
+    line-height:1.5;
+
+    color:#e2e8ff;
+
+    margin-bottom:30px;
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+.about{
+
+    width:900px;
+
+    max-width:100%;
+
+    height:
+    calc(100% - 100px);
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:100px;
+}
+
+.about-title{
+
+    width:40%;
+
+    font-family:Georgia,serif;
+}
+
+.about-title small{
+
+    color:#68749e;
+
+    letter-spacing:4px;
+
+    font-size:10px;
+}
+
+.about-title h2{
+
+    margin-top:15px;
+
+    font-size:65px;
+
+    font-weight:400;
+
+    line-height:.9;
+
+    color:#dce5ff;
+
+    text-shadow:
+    0 0 30px
+    rgba(125,157,255,.3);
+}
+
+.about-text{
+
+    width:60%;
+
+    color:#9ea6bf;
+
+    font-size:13px;
+
+    line-height:2;
+}
+
+.about-text p{
+
+    margin-bottom:20px;
+}
+
+.about-info{
+
+    margin-top:35px;
+
+    padding-top:20px;
+
+    border-top:
+    1px solid
+    rgba(255,255,255,.1);
+
+    display:flex;
+
+    gap:50px;
+}
+
+.about-info span{
+
+    display:block;
+
+    font-family:Georgia,serif;
+
+    color:#65719a;
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+    margin-bottom:5px;
+}
+
+.about-info strong{
+
+    font-size:11px;
+
+    font-weight:400;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+
+    position:fixed;
+
+    bottom:18px;
+    left:50%;
+
+    transform:
+    translateX(-50%);
+
+    color:#4d5574;
+
+    font-family:Georgia,serif;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    z-index:90;
+
+    white-space:nowrap;
+}
+
+
+/* =====================================================
+   클릭 효과
+===================================================== */
+
+.click-magic{
+
+    position:fixed;
+
+    pointer-events:none;
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+    0 0 10px #fff,
+    0 0 25px #91aaff;
+
+    z-index:999;
+
+    animation:
+    clickMagic .7s
+    ease-out
+    forwards;
+}
+
+@keyframes clickMagic{
+
+    0%{
+
+        opacity:1;
+
+        transform:scale(.5);
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:scale(4);
+    }
+
+}
+
+
+/* =====================================================
+   태블릿
+===================================================== */
+
+@media(max-width:900px){
+
+    header{
+
+        padding:0 20px;
+    }
+
+    nav{
+
+        gap:12px;
+    }
+
+    nav button{
+
+        font-size:9px;
+    }
+
+    .moon{
+
+        opacity:.25;
+
+        right:-50px;
+    }
+
+    .character-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+        gap:12px;
+    }
+
+    .detail{
+
+        overflow-y:auto;
+
+        flex-direction:column;
+
+        height:100%;
+
+        padding-top:40px;
+    }
+
+    .detail-image{
+
+        width:100%;
+
+        height:45%;
+    }
+
+    .detail-info{
+
+        width:100%;
+
+        padding:
+        20px 0 80px;
+    }
+
+    .world-layout{
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:20px;
+
+        overflow-y:auto;
+    }
+
+    .world-symbol{
+
+        height:250px;
+
+        flex:none;
+    }
+
+    .world-text{
+
+        flex:none;
+    }
+
+    .about{
+
+        overflow-y:auto;
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:30px;
+    }
+
+    .about-title,
+    .about-text{
+
+        width:100%;
+    }
+
+}
+
+
+/* =====================================================
+   모바일
+===================================================== */
+
+@media(max-width:600px){
+
+    header{
+
+        height:110px;
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:15px;
+    }
+
+    .logo-small{
+
+        display:none;
+    }
+
+    nav{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:8px 15px;
+    }
+
+    .page{
+
+        padding:
+        130px 20px 40px;
+    }
+
+    .home-title{
+
+        font-size:42px;
+    }
+
+    .moon{
+
+        width:100px;
+        height:100px;
+
+        top:22%;
+    }
+
+    .character-grid{
+
+        grid-template-columns:1fr;
+
+        height:
+        calc(100% - 100px);
+
+        overflow-y:auto;
+
+        padding-bottom:40px;
+    }
+
+    .character-card{
+
+        height:280px;
+
+        min-height:280px;
+    }
+
+    .detail-name{
+
+        font-size:43px;
+    }
+
+    .about-title h2{
+
+        font-size:50px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     배경
+===================================================== -->
+
+<div id="sky">
+
+    <div
+        class="shooting-star"
+        style="top:20%;left:80%;">
+    </div>
+
+    <div
+        class="shooting-star"
+        style="top:60%;left:70%;animation-delay:4s;">
+    </div>
+
+
+    <div
+        class="magic-star"
+        style="top:17%;left:18%;">
+        ✦
+    </div>
+
+    <div
+        class="magic-star"
+        style="top:30%;left:70%;animation-delay:1s;">
+        ✧
+    </div>
+
+    <div
+        class="magic-star"
+        style="top:75%;left:20%;animation-delay:2s;">
+        ✦
+    </div>
+
+    <div
+        class="magic-star"
+        style="top:72%;right:15%;animation-delay:1.5s;">
+        ✧
+    </div>
+
+
+    <div class="magic-circle"></div>
+
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div
+        class="logo"
+        onclick="go('home')">
+
+        <span class="logo-small">
+            [상단 작은 문구를 입력하세요]
+        </span>
+
+        <span class="logo-title">
+            [작품 제목]
+        </span>
+
+    </div>
+
+
+    <nav>
+
+        <button onclick="go('home')">
+            HOME
+        </button>
+
+        <button onclick="go('world')">
+            WORLD
+        </button>
+
+        <button onclick="go('characters')">
+            CHARACTERS
+        </button>
+
+        <button onclick="go('relation')">
+            RELATION
+        </button>
+
+        <button onclick="go('story')">
+            STORY
+        </button>
+
+        <button onclick="go('about')">
+            ABOUT
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section
+    id="home"
+    class="page active">
+
+
+    <div class="home-content">
+
+        <div class="home-small">
+
+            [작품의 분위기를 나타내는 짧은 문구]
+
+        </div>
+
+
+        <h1 class="home-title">
+
+            [작품 제목]
+
+            <br>
+
+            <span>
+                [작품 부제 또는 짧은 문구]
+            </span>
+
+        </h1>
+
+
+        <p class="home-description">
+
+            [작품을 한 문장으로 소개해주세요.]<br>
+
+            [작품의 분위기나 핵심 내용을 간단하게 적어주세요.]
+
+        </p>
+
+
+        <button
+            class="start-button"
+            onclick="go('story')">
+
+            ✦ &nbsp;
+
+            [스토리 시작]
+
+        </button>
+
+    </div>
+
+
+    <div class="moon"></div>
+
+
+    <div class="home-bottom">
+
+        ✦ &nbsp;
+
+        [하단 장식 문구]
+
+        &nbsp; ✦
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WORLD
+===================================================== -->
+
+<section
+    id="world"
+    class="page">
+
+
+    <div class="section-title">
+
+        <small>
+            01 / WORLD
+        </small>
+
+        <h2>
+            [세계관 페이지 제목]
+        </h2>
+
+    </div>
+
+
+    <div class="world-layout">
+
+
+        <div class="world-symbol">
+
+            <div class="world-orbit"></div>
+
+            <div class="world-orbit two"></div>
+
+            <div class="world-star">
+                ✦
+            </div>
+
+        </div>
+
+
+        <div class="world-text">
+
+
+            <p class="quote">
+
+                [세계관을 대표하는 문장]
+
+            </p>
+
+
+            <p>
+
+                [세계관 설명을 입력하세요.]
+
+            </p>
+
+
+            <p>
+
+                [세계관의 시대적 배경을 입력하세요.]
+
+            </p>
+
+
+            <p>
+
+                [주요 장소나 지역에 대한 설명을 입력하세요.]
+
+            </p>
+
+
+            <p>
+
+                [세계관에서 일어난 중요한 사건을 입력하세요.]
+
+            </p>
+
+
+            <p>
+
+                [그 외 필요한 세계관 설정을 입력하세요.]
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CHARACTERS
+===================================================== -->
+
+<section
+    id="characters"
+    class="page">
+
+
+    <div class="section-title">
+
+        <small>
+            02 / CHARACTERS
+        </small>
+
+        <h2>
+            [캐릭터 페이지 제목]
+        </h2>
+
+    </div>
+
+
+    <div
+        id="characterGrid"
+        class="character-grid">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CHARACTER DETAIL
+===================================================== -->
+
+<section
+    id="detail"
+    class="page">
+
+
+    <button
+        class="back"
+        onclick="go('characters')">
+
+        ← [캐릭터 목록]
+
+    </button>
+
+
+    <div class="detail">
+
+
+        <div class="detail-image">
+
+
+            <div
+                id="detailPlaceholder"
+                class="detail-placeholder">
+
+                ✦
+
+            </div>
+
+
+            <img
+                id="detailImage"
+                src=""
+                alt="">
+
+        </div>
+
+
+        <div class="detail-info">
+
+
+            <h2
+                id="detailName"
+                class="detail-name">
+
+                [캐릭터 이름]
+
+            </h2>
+
+
+            <div
+                id="detailTitle"
+                class="detail-title">
+
+                [캐릭터 칭호 / 한 줄 소개]
+
+            </div>
+
+
+            <div class="detail-line"></div>
+
+
+            <div class="profile">
+
+
+                <div>
+
+                    <span>
+                        AGE
+                    </span>
+
+                    <strong
+                        id="detailAge">
+
+                        [나이]
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        GENDER
+                    </span>
+
+                    <strong
+                        id="detailGender">
+
+                        [성별]
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PERSONALITY
+                    </span>
+
+                    <strong
+                        id="detailPersonality">
+
+                        [성격]
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TITLE
+                    </span>
+
+                    <strong
+                        id="detailTitle2">
+
+                        [칭호 / 한 줄 소개]
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="detail-like">
+
+
+                <div>
+
+                    <span>
+                        LIKE
+                    </span>
+
+                    <p id="detailLike">
+                        [좋아하는 것]
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        DISLIKE
+                    </span>
+
+                    <p id="detailDislike">
+                        [싫어하는 것]
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RELATION
+===================================================== -->
+
+<section
+    id="relation"
+    class="page">
+
+
+    <div class="section-title">
+
+        <small>
+            03 / RELATION
+        </small>
+
+        <h2>
+            [관계도 페이지 제목]
+        </h2>
+
+    </div>
+
+
+    <div class="relation-area">
+
+
+        <div class="relation-line line-left"></div>
+
+        <div class="relation-line line-right"></div>
+
+
+        <div class="you">
+
+            <span>
+                USER
+            </span>
+
+            <b>
+                ✦
+            </b>
+
+        </div>
+
+
+        <div class="relation-box one">
+
+            <small>
+                01
+            </small>
+
+            <h3>
+                [캐릭터 이름]
+            </h3>
+
+            <p>
+                [USER와 이 캐릭터의 관계를 입력하세요.]
+            </p>
+
+        </div>
+
+
+        <div class="relation-box two">
+
+            <small>
+                02
+            </small>
+
+            <h3>
+                [캐릭터 이름]
+            </h3>
+
+            <p>
+                [USER와 이 캐릭터의 관계를 입력하세요.]
+            </p>
+
+        </div>
+
+
+        <div class="relation-box three">
+
+            <small>
+                03
+            </small>
+
+            <h3>
+                [캐릭터 이름]
+            </h3>
+
+            <p>
+                [USER와 이 캐릭터의 관계를 입력하세요.]
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STORY
+===================================================== -->
+
+<section
+    id="story"
+    class="page">
+
+
+    <div class="section-title">
+
+        <small>
+            04 / STORY
+        </small>
+
+        <h2>
+            [스토리 페이지 제목]
+        </h2>
+
+    </div>
+
+
+    <div class="story">
+
+
+        <div class="story-date">
+
+            [날짜 / 시간 / 장소 / 에피소드 번호]
+
+        </div>
+
+
+        <div class="story-text">
+
+
+            <p class="big">
+
+                [프롤로그 제목 또는 첫 문장]
+
+            </p>
+
+
+            <p>
+
+                [스토리 본문 1]
+
+            </p>
+
+
+            <p>
+
+                [스토리 본문 2]
+
+            </p>
+
+
+            <p>
+
+                [스토리 본문 3]
+
+            </p>
+
+
+            <p>
+
+                [스토리 본문 4]
+
+            </p>
+
+
+            <p>
+
+                [스토리 본문 5]
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+    id="about"
+    class="page">
+
+
+    <div class="section-title">
+
+        <small>
+            05 / ABOUT
+        </small>
+
+        <h2>
+            [작품 정보 페이지 제목]
+        </h2>
+
+    </div>
+
+
+    <div class="about">
+
+
+        <div class="about-title">
+
+            <small>
+                [짧은 문구]
+            </small>
+
+
+            <h2>
+
+                [작품<br>
+                제목을<br>
+                입력하세요]
+
+            </h2>
+
+        </div>
+
+
+        <div class="about-text">
+
+
+            <p>
+
+                [작품에 대한 설명을 입력하세요.]
+
+            </p>
+
+
+            <p>
+
+                [이 사이트에 대한 설명을 입력하세요.]
+
+            </p>
+
+
+            <div class="about-info">
+
+
+                <div>
+
+                    <span>
+                        CREATOR
+                    </span>
+
+                    <strong>
+                        [크리에이터 이름]
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PLATFORM
+                    </span>
+
+                    <strong>
+                        [플랫폼 이름]
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        GENRE
+                    </span>
+
+                    <strong>
+                        [장르]
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    ✦ &nbsp;
+
+    [사이트 하단 문구]
+
+    &nbsp; ✦
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   별 자동 생성
+===================================================== */
+
+const sky =
+document.getElementById("sky");
+
+for(let i=0;i<140;i++){
+
+    const star =
+    document.createElement("div");
+
+    star.className =
+    "star";
+
+    star.style.left =
+    Math.random()*100 + "%";
+
+    star.style.top =
+    Math.random()*100 + "%";
+
+    const size =
+    Math.random()*2 + .7;
+
+    star.style.width =
+    size + "px";
+
+    star.style.height =
+    size + "px";
+
+    star.style.setProperty(
+        "--duration",
+        (2 + Math.random()*5) + "s"
+    );
+
+    star.style.animationDelay =
+    Math.random()*5 + "s";
+
+    sky.appendChild(star);
+}
+
+
+/* =====================================================
+   페이지 전환
+===================================================== */
+
+function go(id){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(page => {
+
+        page.classList.remove("active");
+
+    });
+
+    const target =
+    document.getElementById(id);
+
+    if(target){
+
+        target.classList.add("active");
+
+    }
+}
+
+
+/* =====================================================
+   캐릭터 정보
+=====================================================
+
+   ★ 여기만 수정하면 캐릭터가 바뀝니다.
+
+   사용할 정보:
+
+   name        = 이름
+   title       = 칭호 / 한 줄 소개
+   age         = 나이
+   gender      = 성별
+   personality = 성격
+   image       = 이미지 주소
+   like        = 좋아하는 것
+   dislike     = 싫어하는 것
+
+===================================================== */
+
+const characters = [
+
+    {
+
+        name:
+        "[캐릭터 1 이름]",
+
+        title:
+        "[캐릭터 1 칭호 / 한 줄 소개]",
+
+        age:
+        "[캐릭터 1 나이]",
+
+        gender:
+        "[캐릭터 1 성별]",
+
+        personality:
+        "[캐릭터 1 성격]",
+
+        image:
+        "",
+
+        like:
+        "[캐릭터 1이 좋아하는 것]",
+
+        dislike:
+        "[캐릭터 1이 싫어하는 것]"
+
+    },
+
+
+    {
+
+        name:
+        "[캐릭터 2 이름]",
+
+        title:
+        "[캐릭터 2 칭호 / 한 줄 소개]",
+
+        age:
+        "[캐릭터 2 나이]",
+
+        gender:
+        "[캐릭터 2 성별]",
+
+        personality:
+        "[캐릭터 2 성격]",
+
+        image:
+        "",
+
+        like:
+        "[캐릭터 2가 좋아하는 것]",
+
+        dislike:
+        "[캐릭터 2가 싫어하는 것]"
+
+    },
+
+
+    {
+
+        name:
+        "[캐릭터 3 이름]",
+
+        title:
+        "[캐릭터 3 칭호 / 한 줄 소개]",
+
+        age:
+        "[캐릭터 3 나이]",
+
+        gender:
+        "[캐릭터 3 성별]",
+
+        personality:
+        "[캐릭터 3 성격]",
+
+        image:
+        "",
+
+        like:
+        "[캐릭터 3이 좋아하는 것]",
+
+        dislike:
+        "[캐릭터 3이 싫어하는 것]"
+
+    },
+
+
+    {
+
+        name:
+        "[캐릭터 4 이름]",
+
+        title:
+        "[캐릭터 4 칭호 / 한 줄 소개]",
+
+        age:
+        "[캐릭터 4 나이]",
+
+        gender:
+        "[캐릭터 4 성별]",
+
+        personality:
+        "[캐릭터 4 성격]",
+
+        image:
+        "",
+
+        like:
+        "[캐릭터 4가 좋아하는 것]",
+
+        dislike:
+        "[캐릭터 4가 싫어하는 것]"
+
+    },
+
+
+    {
+
+        name:
+        "[캐릭터 5 이름]",
+
+        title:
+        "[캐릭터 5 칭호 / 한 줄 소개]",
+
+        age:
+        "[캐릭터 5 나이]",
+
+        gender:
+        "[캐릭터 5 성별]",
+
+        personality:
+        "[캐릭터 5 성격]",
+
+        image:
+        "",
+
+        like:
+        "[캐릭터 5가 좋아하는 것]",
+
+        dislike:
+        "[캐릭터 5가 싫어하는 것]"
+
+    },
+
+
+    {
+
+        name:
+        "[캐릭터 6 이름]",
+
+        title:
+        "[캐릭터 6 칭호 / 한 줄 소개]",
+
+        age:
+        "[캐릭터 6 나이]",
+
+        gender:
+        "[캐릭터 6 성별]",
+
+        personality:
+        "[캐릭터 6 성격]",
+
+        image:
+        "",
+
+        like:
+        "[캐릭터 6이 좋아하는 것]",
+
+        dislike:
+        "[캐릭터 6이 싫어하는 것]"
+
+    }
+
+];
+
+
+/* =====================================================
+   캐릭터 카드 만들기
+===================================================== */
+
+const grid =
+document.getElementById(
+    "characterGrid"
+);
+
+
+characters.forEach(
+(character,index) => {
+
+    const card =
+    document.createElement("div");
+
+    card.className =
+    "character-card";
+
+
+    card.innerHTML = `
+
+        <div class="character-image">
+
+            ${
+                character.image
+
+                ?
+
+                `<img
+                    src="${character.image}"
+                    alt="${character.name}"
+                >`
+
+                :
+
+                `✦`
+            }
+
+        </div>
+
+
+        <div class="character-info">
+
+            <div class="character-number">
+
+                ${String(index+1).padStart(2,"0")}
+
+            </div>
+
+
+            <div class="character-name">
+
+                ${character.name}
+
+            </div>
+
+
+            <div class="character-title">
+
+                ${character.title}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    card.onclick =
+    () => openCharacter(index);
+
+
+    grid.appendChild(card);
+
+});
+
+
+/* =====================================================
+   캐릭터 상세 페이지
+===================================================== */
+
+function openCharacter(index){
+
+    const character =
+    characters[index];
+
+
+    document.getElementById(
+        "detailName"
+    ).textContent =
+    character.name;
+
+
+    document.getElementById(
+        "detailTitle"
+    ).textContent =
+    character.title;
+
+
+    document.getElementById(
+        "detailTitle2"
+    ).textContent =
+    character.title;
+
+
+    document.getElementById(
+        "detailAge"
+    ).textContent =
+    character.age;
+
+
+    document.getElementById(
+        "detailGender"
+    ).textContent =
+    character.gender;
+
+
+    document.getElementById(
+        "detailPersonality"
+    ).textContent =
+    character.personality;
+
+
+    document.getElementById(
+        "detailLike"
+    ).textContent =
+    character.like;
+
+
+    document.getElementById(
+        "detailDislike"
+    ).textContent =
+    character.dislike;
+
+
+    const image =
+    document.getElementById(
+        "detailImage"
+    );
+
+
+    const placeholder =
+    document.getElementById(
+        "detailPlaceholder"
+    );
+
+
+    if(character.image){
+
+        image.src =
+        character.image;
+
+        image.style.display =
+        "block";
+
+        placeholder.style.display =
+        "none";
+
+    }
+
+    else{
+
+        image.style.display =
+        "none";
+
+        placeholder.style.display =
+        "flex";
+
+    }
+
+
+    go("detail");
+
+}
+
+
+/* =====================================================
+   클릭 시 별빛 효과
+===================================================== */
+
+document.addEventListener(
+"click",
+function(event){
+
+    const star =
+    document.createElement("div");
+
+    star.className =
+    "click-magic";
+
+    star.style.left =
+    event.clientX + "px";
+
+    star.style.top =
+    event.clientY + "px";
+
+    document.body.appendChild(star);
+
+    setTimeout(
+        () => star.remove(),
+        700
+    );
+
+});
+
+
+/* =====================================================
+   ESC → HOME
+===================================================== */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+    if(event.key === "Escape"){
+
+        go("home");
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
